@@ -45,4 +45,11 @@ describe Oystercard do
   it "throws an error if the card doesn't have enough funds for a journey" do
     expect{oystercard.touch_in}.to raise_error("Insufficient funds for journey")
   end
+
+  it "deducts funds when user touches in" do
+    oystercard.top_up(10.00)
+    oystercard.touch_in
+    expect(oystercard.balance).to eq(9.00)
+  end
+
 end
