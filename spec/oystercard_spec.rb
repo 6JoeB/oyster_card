@@ -15,4 +15,9 @@ describe Oystercard do
     oystercard.top_up(10.00)
     expect(oystercard.balance).to eq(10.00)
   end
+
+  it "has a maximum balance of 90" do
+    expect(oystercard.top_up(100.00)).to raise_error("Top up maximum limit is £90.00")
+
+  end
 end
