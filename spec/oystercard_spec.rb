@@ -25,4 +25,24 @@ describe Oystercard do
     oystercard.deduct(3.40)
     expect(oystercard.balance).to eq(6.60)
   end
+
+  it "can tell if you are in a journey or not" do
+    expect(oystercard.in_journey?).to eq(true).or eq(false)
+  end
+
+  it "can track when you touch in and go on a journey" do
+    oystercard.top_up(10.00)
+    oystercard.touch_in
+    expect(oystercard.in_journey?).to be true
+  end
+
+  it "can track when you touch out and are no longer on a journey" do
+    oystercard.top_up(10.00)
+    oystercard.touch_out
+    expect(oystercard.in_journey?).to be false
+  end
+
+  it "throws an error if the card doesn't have enough funds for a journey" do
+    expect{oystercard.touch_in}.to raise_error("Insufficient funds for journey")
+  end
 end
