@@ -28,7 +28,6 @@ class Oystercard
   end
 
   def touch_out(amount = MINIMUM_CHARGE, station)
-    fail "Insufficient funds for journey" if @balance < MINIMUM_FUNDS
     deduct(amount)
     @active_journey = false
     @single_journey.merge!(exit_station: station)
@@ -38,7 +37,7 @@ class Oystercard
  private
 
   def deduct(amount)
-    fail "Insufficient funds in balance" if @balance - amount < 0
+    fail "Insufficient funds for journey" if @balance - amount < 0
     @balance -= amount
   end
 
