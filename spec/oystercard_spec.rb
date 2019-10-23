@@ -47,7 +47,7 @@ describe Oystercard do
   end
 
   it "starts with an empty journey history" do
-    expect(oystercard.location_history).to be_empty
+    expect(oystercard.single_journey).to be_empty
   end
 
   it "takes a parameter of start location when touching in" do
@@ -60,6 +60,18 @@ describe Oystercard do
     oystercard.top_up(10.00)
     oystercard.touch_out(1.00, station)
     expect(oystercard.location_history).to include(station)
+  end
+
+  it "takes a parameter of start location when touching in" do
+    oystercard.top_up(10.00)
+    oystercard.touch_in(station)
+    expect(oystercard.single_journey).to include(:entry_station => station)
+  end
+
+  it "takes a station as an argument and adds it to the location history" do
+    oystercard.top_up(10.00)
+    oystercard.touch_out(1.00, station)
+    expect(oystercard.single_journey).to include(:exit_station => station)
   end
   
 end

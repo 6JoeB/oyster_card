@@ -1,5 +1,5 @@
 class Oystercard
-  attr_reader :balance, :location_history
+  attr_reader :balance, :location_history, :single_journey
   MAXIMUM_BALANCE = 90.00
   MINIMUM_FUNDS = 1.00
   MINIMUM_CHARGE = 1.00
@@ -8,6 +8,7 @@ class Oystercard
     @balance = 0
     @active_journey = false
     @location_history = []
+    @single_journey = {}
   end
 
   def top_up(amount)
@@ -20,6 +21,8 @@ class Oystercard
   end
 
   def touch_in(station)
+    @single_journey.clear
+    @single_journey.merge!(entry_station: station)
     @location_history << station
     @active_journey = true
   end
@@ -28,6 +31,7 @@ class Oystercard
     fail "Insufficient funds for journey" if @balance < MINIMUM_FUNDS
     deduct(amount)
     @active_journey = false
+    @single_journey.merge!(exit_station: station)
     @location_history << station
   end
 
